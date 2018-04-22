@@ -386,3 +386,40 @@ npm install autoprefixer cssnano postcss-cssnext --save-dev
 ```bash
 npm install babel-plugin-lodash --save-dev
 ```
+
+`css trss shaking`需要借助一个工具`purify css`。针对`webpack`有一个插件`purifycss-webpack` 。
+
+```bash
+npm install purify-css purifycss-webpack --save-dev
+```
+
+options有
+
+```js
+paths: glob.sync([]) 需要进行tree shaking的文件路径
+```
+
+**purify css有个bug，就是在匹配类名的时候，可能因为是通过正则匹配，所以下面css文件中的bigBox1不管有没有在代码中使用过，在打包的时候都不会被删除。**
+
+```css
+
+.bigBox{ 
+    width: 400px;
+    height: 400px;
+    border: solid 2px green;
+}
+
+/* 会被删除，当不使用的时候 */
+.smallBox { 
+    width: 400px;
+    height: 400px;
+    border: solid 2px red;
+}
+
+/* 不会被删除，不管使用还是不使用 */
+.bigBox1 { 
+    width: 400px;
+    height: 400px;
+    border: solid 2px green;
+}
+```

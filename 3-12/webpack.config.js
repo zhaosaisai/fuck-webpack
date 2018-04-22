@@ -1,6 +1,8 @@
 const path = require('path')
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin')
 const webpack = require('webpack')
+const Purifycss = require('purifycss-webpack')
+const glob = require('glob-all')
 
 module.exports = {
     entry: {
@@ -10,7 +12,8 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js',
         // publicPath: path.resolve(__dirname, 'dist/')
-        publicPath: './dist/'
+        publicPath: './dist/',
+        chunkFilename: '[name].bundle.css'
     },
     module: {
         rules: [
@@ -32,9 +35,9 @@ module.exports = {
                                 loader: 'css-loader',
                                 options: {
                                     // minimize: true,
-                                    modules: true,
+                                    // modules: true
                                     // localIdentName: 定义css module生成的类名
-                                    localIdentName: '[path] [name]_[local]_[hash:base64:5]'
+                                    // localIdentName: '[path] [name]_[local]_[hash:base64:5]'
                                 }
                                 // loader: 'file-loader',
                             },
@@ -84,6 +87,16 @@ module.exports = {
         
         // 开始使用tree shaking
         // 直接使用这个压缩插件，是本地的tree shaking的一种方式，会把代码中没有用到的全部移除
-        new webpack.optimize.UglifyJsPlugin()
+        new webpack.optimize.UglifyJsPlugin(),
+
+        // css tree shaking
+        // 需要放在ExtractTextWebpackPlugin后面，切记切记
+        new Purifycss({
+            paths: glob.sync([
+                path.join(__dirname, './*.html'),
+                path.join(__dirname, './src/*.js'),
+                path.join(__dirname, './app.js')
+            ])
+        })
     ]
 }

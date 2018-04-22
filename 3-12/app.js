@@ -5,7 +5,9 @@ import { a } from './src/common/util'
 import { chunk } from 'lodash-es'
 
 const app = document.getElementById('app');
-app.innerHTML = '<div class="'+base.box+'"></div>'
+const div = document.createElement('div')
+div.className = 'box'
+app.appendChild(div)
 
 console.log(a())
 
