@@ -57,6 +57,19 @@ module.exports = {
                             }
                         ]
                 })
+            }, 
+            {
+                test: /\.js$/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['env'],
+                            // 用于lodash的tree shaking
+                            plugins: ['lodash']
+                        }
+                    }
+                ]
             }
         ]
     },

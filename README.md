@@ -379,3 +379,10 @@ npm install autoprefixer cssnano postcss-cssnext --save-dev
 
 ##### 10. Tree shaking（3-12）
 `tree shaking`主要目的就是去除那些没有使用过的代码。主要有`js tree shaking`和`css tree shaking`。是常规优化的一个手段。尤其当我们引入第三方库中的某一个功能的时候。
+
+项目的`tree shaking`，只需要使用`new webpack.optimize.UglifyJsPlugin()`插件即可。
+第三方库的`tree shaking`，以方面需要第三方库对`tree shaking`的支持，另一方面，我们可以使用其他工具，比如常见的`lodash`的`tree shaking`可以使用`babel-plugin-lodash`来实现。
+
+```bash
+npm install babel-plugin-lodash --save-dev
+```
